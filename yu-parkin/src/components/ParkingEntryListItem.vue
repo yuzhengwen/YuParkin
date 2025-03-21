@@ -4,6 +4,7 @@ import { Button } from "primevue";
 import DeleteEntry from "@/components/DeleteEntry.vue";
 import { getTeamFromId } from "@/lib/stores/teams";
 import carPic from "@/assets/car.png";
+import ParkingEntryDetailed from "./ParkingEntryDetailed.vue";
 const user = useUserStore();
 const { parkingEntry, index } = defineProps(['parkingEntry', 'index']);
 </script>
@@ -25,6 +26,7 @@ const { parkingEntry, index } = defineProps(['parkingEntry', 'index']);
           Parked at: {{ parkingEntry.$createdAt }}</span>
         <span class="text-l font-medium">Parked by: {{ parkingEntry.driver }}</span> <!-- Carpark name -->
         <div class="flex flex-row-reverse md:flex-row gap-2">
+          <ParkingEntryDetailed :parkingEntry="parkingEntry" />
           <a :href="'https://www.google.com/maps/search/?api=1&query=' + parkingEntry.address" target="_blank">
             <Button :disabled="!parkingEntry.address" icon="pi pi-map-marker" />
           </a>
