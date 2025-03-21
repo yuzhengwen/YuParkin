@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@import 'primeicons/primeicons.css';
+
+#app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 95vh;
+}
+
+section {
+  margin: 1rem;
+}
