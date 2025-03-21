@@ -2,13 +2,20 @@
 import { storage } from '@/lib/appwrite';
 import { getTeamFromId } from '@/lib/stores/teams';
 import { Button, Dialog, Image } from 'primevue';
-import { onMounted, ref } from 'vue';
-const { parkingEntry } = defineProps(['parkingEntry']);
+import { onMounted, ref, toRef, watch } from 'vue';
+const props = defineProps(['parkingEntry']);
+const parkingEntry = props.parkingEntry;
+const parkingEntryRef = toRef(props, 'parkingEntry');
 const visible = ref(false);
 
 const imageSrcs = ref([]);
 onMounted(async () => {
-  const promises = parkingEntry.imageIds.map(async (id) => await storage.getFilePreview(import.meta.env.VITE_UPLOAD_BUCKET_ID, id));
+  const promises = parkingEntry.imageIds.map((id) => storage.getFilePreview(import.meta.env.VITE_UPLOAD_BUCKET_ID, id));
+  imageSrcs.value = await Promise.all(promises);
+});
+// not sure why but sometimes the prop will change
+watch(parkingEntryRef, async (newEntry) => {
+  const promises = newEntry.imageIds.map((id) => storage.getFilePreview(import.meta.env.VITE_UPLOAD_BUCKET_ID, id));
   imageSrcs.value = await Promise.all(promises);
 });
 </script>

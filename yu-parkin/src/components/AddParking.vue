@@ -33,13 +33,19 @@ const addParkingEntry = async () => {
     address: address.value,
     imageIds: fileIds,
   });
+  // clear form so the next entry won't have the same values
   carparkName.value = "";
   level.value = "";
+  address.value = "";
+  teamId.value = "";
+  images.value = [];
+
   visible.value = false;
   toast.add({ severity: 'success', summary: 'Added', detail: 'Parking entry added!', life: 3000 });
 }
 const uploadImages = async () => {
   const files = [];
+  console.log(images.value);
   for (const image of images.value) {
     try {
       const file = await storage.createFile(
@@ -79,7 +85,7 @@ const onSelectFiles = (files) => {
         <TabPanels>
           <TabPanel value="0">
             <Select v-model="teamId" :options="teamsStore.userTeamsObj.teams" optionValue="$id" optionLabel="name"
-              placeholder="Select a Team" class="w-fit md:w-56" />
+              placeholder="Select a Team" class="w-fit md:w-56" :defaultValue="teamsStore.userTeamsObj.teams[0].name" />
             <Divider />
             <div class="flex flex-col gap-4">
               <InputText type="text" placeholder="Carpark Name" v-model="carparkName" />

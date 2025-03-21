@@ -35,7 +35,7 @@ const invite = () => {
   <Dialog v-model:visible="visible" modal header="Invite a Member" :class="{ 'w-fit': true }">
     <form class="flex flex-col gap-4 w-full sm:w-56">
       <Select v-if="!selectedTeam" v-model="team" :options="teamsStore.userTeamsObj.teams" optionLabel="name"
-        placeholder="Select a Team" class="w-full md:w-56" />
+        placeholder="Select a Team" class="w-full md:w-56" :defaultValue="teamsStore.userTeamsObj.teams[0].name"/>
       <InputText type="text" placeholder="Email to invite" v-model="email" />
       <Button type="button" @click="invite">Submit</Button>
     </form>
