@@ -1,6 +1,6 @@
 <script setup>
 import { parking } from "@/lib/stores/parking";
-import { computed, onMounted, onUnmounted } from "vue";
+import { computed, onMounted } from "vue";
 import { client } from "@/lib/appwrite";
 import { DataView } from "primevue";
 import ParkingEntryCard from "@/components/ParkingEntryCard.vue";
