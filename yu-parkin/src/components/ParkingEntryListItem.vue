@@ -7,6 +7,13 @@ import carPic from "@/assets/car.png";
 import ParkingEntryDetailed from "./ParkingEntryDetailed.vue";
 const user = useUserStore();
 const { parkingEntry, index } = defineProps(['parkingEntry', 'index']);
+
+import { computed } from "vue";
+import { getFormattedDateString } from "@/lib/date";
+
+const formattedDate = computed(() => {
+  return getFormattedDateString(new Date(parkingEntry.$createdAt))
+});
 </script>
 
 <template>
@@ -23,13 +30,15 @@ const { parkingEntry, index } = defineProps(['parkingEntry', 'index']);
       </div>
       <div class="flex flex-col md:items-end gap-2">
         <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">
-          Parked at: {{ parkingEntry.$createdAt }}</span>
+          At: {{ formattedDate }}</span>
         <span class="text-l font-medium">Parked by: {{ parkingEntry.driver }}</span>
         <!-- Button Group -->
         <div class="flex flex-row-reverse md:flex-row gap-2">
           <ParkingEntryDetailed :parkingEntry="parkingEntry" />
-          <Button as="a" :href="'https://www.google.com/maps/search/?api=1&query=' + parkingEntry.address"
-            target="_blank" rel="noopener" :disabled="!parkingEntry.address" icon="pi pi-map-marker" />
+          <a :href="'https://www.google.com/maps/search/?api=1&query=' + parkingEntry.address" target="_blank"
+            rel="noopener">
+            <Button :disabled="!parkingEntry.address" icon="pi pi-map-marker" />
+          </a>
           <Button icon="pi pi-pencil" outlined :disabled="user.current && parkingEntry.userId !== user.current.$id" />
           <DeleteEntry :id="parkingEntry.$id" :disabled="user.current && parkingEntry.userId !== user.current.$id" />
         </div>
