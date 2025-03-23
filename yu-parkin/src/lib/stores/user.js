@@ -4,6 +4,7 @@ import { ID } from 'appwrite'
 import { account } from '../appwrite'
 import router from '@/router'
 import { useTeamsStore } from './teams'
+import { useToast } from 'primevue'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -16,8 +17,8 @@ export const useUserStore = defineStore('user', {
         this.current = await account.get()
         // initialize teams store if user is logged in
         await useTeamsStore().init()
-      } catch (e){
-        console.log(e);
+      } catch (e) {
+        console.log(e)
         this.current = null
       }
     },
@@ -35,7 +36,7 @@ export const useUserStore = defineStore('user', {
       // Redirect to the page user was trying to access
       const url = new URL(window.location.href)
       console.log(url.searchParams)
-      return url.searchParams.has('redirect')
+      url.searchParams.has('redirect')
         ? router.push(url.searchParams.get('redirect'))
         : router.push({ name: 'home' })
     },

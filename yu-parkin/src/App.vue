@@ -52,7 +52,7 @@ onMounted(() => {
     </template>
   </Menubar>
 
-  <Toast />
+  <Toast position="top-center" />
   <ConfirmDialog></ConfirmDialog>
   <div class="mt-8 mx-auto max-w-7xl">
     <router-view />
