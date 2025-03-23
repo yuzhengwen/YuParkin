@@ -36,7 +36,6 @@ const confirmDel = () => {
 </script>
 
 <template>
-  <Button outlined class="flex-auto md:flex-initial whitespace-nowrap" icon="pi pi-trash" label="Delete" severity="danger"
-    type="button" @click="confirmDel()">
-  </Button>
+  <Button outlined class="flex-auto md:flex-initial whitespace-nowrap" icon="pi pi-trash" severity="danger"
+    type="button" @click="confirmDel()"/>
 </template>

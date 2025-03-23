@@ -36,12 +36,12 @@ console.log(import.meta.env.MODE);
     </template>
     <template #end>
       <div class="flex items-center gap-2">
+        <Button icon='pi pi-palette' @click="toggleDarkMode()" variant="text" rounded aria-label="Palette" />
         <AddParking v-if="user.current" />
         <ProfileButton v-if="user.current" />
         <router-link v-if="!user.current" to="/login">
           <Button label="Login" />
         </router-link>
-        <Button icon='pi pi-palette' @click="toggleDarkMode()" variant="text" rounded aria-label="Palette" />
       </div>
     </template>
   </Menubar>
