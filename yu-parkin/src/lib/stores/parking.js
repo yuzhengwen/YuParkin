@@ -1,5 +1,5 @@
 import { ID, Query } from 'appwrite'
-import { databases } from '../appwrite'
+import { databases, storage } from '../appwrite'
 import { reactive } from 'vue'
 import { useTeamsStore } from './teams'
 
@@ -32,6 +32,11 @@ export const parking = reactive({
   },
   async remove(id) {
     console.log('Deleting document with ID', id)
+    const fileIds = this.current.find((parking) => parking.$id === id).imageIds || []
+    console.log('Deleting files with IDs', fileIds)
+    await Promise.all(
+      fileIds.map((fileId) => storage.deleteFile(import.meta.env.VITE_UPLOAD_BUCKET_ID, fileId)),
+    )
     await databases.deleteDocument(DATABASE_ID, PARKING_COLLECTION_ID, id)
     this.current = this.current.filter((parking) => parking.$id !== id)
     await this.init() // Refetch ideas to ensure we have 10 items

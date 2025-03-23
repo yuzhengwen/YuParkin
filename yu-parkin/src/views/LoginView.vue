@@ -17,11 +17,11 @@ const password = ref("");
 const name = ref("");
 const recoveryEmail = ref("");
 
-const returnUrl = window.location.origin;
+const baseUrl = window.location.origin;
 const signInWithGoogle = async () => {
-  console.log(returnUrl);
+  console.log(baseUrl);
   try {
-    await account.createOAuth2Session(OAuthProvider.Google, returnUrl, returnUrl + "/login");
+    await account.createOAuth2Session(OAuthProvider.Google, baseUrl + "/home", baseUrl + "/login");
     toast.add({ severity: 'success', summary: 'Logged In', detail: `Hello, ${name.value}`, life: 3000 });
   } catch (error) {
     toast.add({ severity: 'error', summary: 'Error', detail: error.message, life: 3000 });
@@ -33,7 +33,7 @@ const handleSubmit = async () => {
     loading.value = true;
     await ((mode.value == "login") ? user.login(email.value, password.value) : user.register(email.value, password.value, name.value));
     loading.value = false;
-    toast.add({ severity: 'success', summary: 'Logged In', detail: `Hello, ${name.value}`, life: 3000 });
+    toast.add({ severity: 'success', summary: 'Logged In', detail: `Hello, ${user.current.name}`, life: 3000 });
   } catch (error) {
     loading.value = false;
     toast.add({ severity: 'error', summary: 'Error', detail: error.message, life: 3000 });
@@ -41,7 +41,7 @@ const handleSubmit = async () => {
 };
 const handlePasswordRecovery = async () => {
   try {
-    await account.createRecovery(recoveryEmail.value, returnUrl + "/password-reset");
+    await account.createRecovery(recoveryEmail.value, baseUrl + "/password-reset");
     toast.add({ severity: 'success', summary: 'Recovery Email Sent', detail: 'Please check your email.', life: 3000 });
   } catch (error) {
     toast.add({ severity: 'error', summary: 'Error', detail: error.message, life: 3000 });
@@ -81,11 +81,11 @@ const handlePasswordRecovery = async () => {
           link.</span>
         <div class="flex flex-col md:flex-row gap-2 items-center mb-4">
           <label for="email" class="font-semibold w-24 text-center md:w-fit mr-2">Email</label>
-          <InputText id="email" class="flex-auto" autocomplete="off" v-model="recoveryEmail"/>
+          <InputText id="email" class="flex-auto" autocomplete="off" v-model="recoveryEmail" />
         </div>
         <div class="flex justify-end gap-2">
-          <Button type="button" label="Cancel" severity="secondary" @click="visible = false"/>
-          <Button type="submit" label="Send"/>
+          <Button type="button" label="Cancel" severity="secondary" @click="visible = false" />
+          <Button type="submit" label="Send" />
         </div>
       </form>
     </Dialog>
