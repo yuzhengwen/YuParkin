@@ -4,6 +4,7 @@ import { useUserStore } from "../lib/stores/user";
 import { Button, InputText } from "primevue";
 import { ref } from "vue";
 import { OAuthProvider } from "appwrite";
+import GoogleSignInButton from "@/components/GoogleSignInButton.vue";
 
 const user = useUserStore();
 const email = ref("");
@@ -31,16 +32,17 @@ const signInWithGoogle = async () => {
         <InputText v-if="mode == 'register'" type="text" placeholder="Name" v-model="name" />
         <InputText required type="email" placeholder="Email" v-model="email" />
         <InputText required type="password" placeholder="Password" v-model="password" />
-        <Button v-if="mode == 'login'" type="button" @click="user.login(email, password)">Login</Button>
+        <!--LOGIN-->
+        <Button v-if="mode == 'login'" type="submit" @click="user.login(email, password)" label="Login" />
         <span v-if="mode == 'login'">Don't have an account?
-          <Button label="Register" variant="text" @click="mode = 'register'" /></span>
-        <Button v-else type="button" @click="user.register(email, password, name)">
-          Register
-        </Button>
+          <Button class="px-0" label="Register" variant="link" @click="mode = 'register'" /></span>
+        <!--REGISTER-->
+        <Button v-else type="submit" @click="user.register(email, password, name)" label="Register" />
         <span v-if="mode == 'register'">Already have an account?
-          <Button label="Login" variant="text" @click="mode = 'login'" /></span>
+          <Button class="px-0" label="Login" variant="link" @click="mode = 'login'" /></span>
       </form>
-      <Button type="button" @click="signInWithGoogle">Sign in with Google</Button>
+      <!--      <Button type="button" @click="signInWithGoogle">Sign in with Google</Button>-->
+      <GoogleSignInButton @click="signInWithGoogle" />
     </section>
   </div>
 </template>
