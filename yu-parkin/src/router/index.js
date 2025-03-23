@@ -30,6 +30,11 @@ const router = createRouter({
       name: 'accept-invite',
       component: () => import('../views/AcceptInviteView.vue'),
     },
+    {
+      path: '/password-reset',
+      name: 'password-reset',
+      component: () => import('../views/PasswordResetView.vue'),
+    },
   ],
 })
 router.beforeEach(async (to) => {
@@ -48,6 +53,8 @@ router.beforeEach(async (to) => {
       name: 'login',
       query: { redirect: to.fullPath }, // ✅ Store redirect path in query
     }
+  } else if (to.name === 'password-reset' && user.current === null) {
+    console.log('User is not logged in and resetting password')
   } else if (to.name !== 'login' && user.current === null) {
     console.log('Redirecting to login')
     return { name: 'login' }

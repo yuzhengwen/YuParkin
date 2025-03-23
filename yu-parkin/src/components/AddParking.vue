@@ -15,6 +15,9 @@ const user = useUserStore();
 const teamsStore = useTeamsStore();
 const toast = useToast();
 const visible = ref(false);
+const loading = ref(false);
+
+// form values
 const level = ref('');
 const address = ref('');
 const teamId = ref('');
@@ -31,6 +34,7 @@ const validateForm = () => {
 }
 const addParkingEntry = async () => {
   if (!validateForm()) return;
+  loading.value = true;
   const files = await uploadImages();
   const fileIds = files.map(file => file.$id);
   await parking.add({
@@ -45,6 +49,7 @@ const addParkingEntry = async () => {
   // clear form so the next entry won't have the same values
   clearForm();
 
+  loading.value = false;
   visible.value = false;
   toast.add({ severity: 'success', summary: 'Added', detail: 'Parking entry added!', life: 3000 });
 }
@@ -124,7 +129,7 @@ watch(visible, (newVal) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      <Button type="submit" label="Submit" />
+      <Button type="submit" label="Submit" :loading="loading" />
     </form>
   </Dialog>
 </template>
