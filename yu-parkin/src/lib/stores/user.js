@@ -4,7 +4,6 @@ import { ID } from 'appwrite'
 import { account } from '../appwrite'
 import router from '@/router'
 import { useTeamsStore } from './teams'
-import { useToast } from 'primevue'
 
 export const useUserStore = defineStore('user', {
   state: () => ({

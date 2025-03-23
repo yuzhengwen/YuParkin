@@ -25,7 +25,7 @@ onMounted(async () => {
   try {
     await teams.updateMembershipStatus(teamId, membershipId, userId, secret);
     message.value = "You have successfully joined the team!";
-    setTimeout(() => router.push("/"), 3000); // Redirect after 3 seconds
+    setTimeout(() => router.push({ name: 'home' }), 3000); // Redirect after 3 seconds
   } catch (error) {
     console.error("Membership confirmation failed:", error);
     message.value = "Failed to accept the invite.";

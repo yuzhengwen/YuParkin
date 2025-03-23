@@ -1,7 +1,7 @@
 <script setup>
 import { account } from '@/lib/appwrite';
 import router from '@/router';
-import { InputText , Button, useToast} from 'primevue';
+import { InputText, Button, useToast } from 'primevue';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
