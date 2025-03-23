@@ -28,16 +28,16 @@ const signInWithGoogle = async () => {
   <div>
     <section>
 
-      <form class="flex flex-col gap-4 w-full sm:w-56">
+      <form class="flex flex-col gap-4 w-full sm:w-56"
+        @submit.prevent="mode == 'login' ? user.login(email, password) : user.register(email, password, name)">
         <InputText v-if="mode == 'register'" type="text" placeholder="Name" v-model="name" />
         <InputText required type="email" placeholder="Email" v-model="email" />
         <InputText required type="password" placeholder="Password" v-model="password" />
-        <!--LOGIN-->
-        <Button v-if="mode == 'login'" type="submit" @click="user.login(email, password)" label="Login" />
+        <Button v-if="mode == 'login'" type="submit" :label="mode == 'login' ? 'Login' : 'Register'" />
+        <!--LOGIN TEXT-->
         <span v-if="mode == 'login'">Don't have an account?
           <Button class="px-0" label="Register" variant="link" @click="mode = 'register'" /></span>
-        <!--REGISTER-->
-        <Button v-else type="submit" @click="user.register(email, password, name)" label="Register" />
+        <!--REGISTER TEXT-->
         <span v-if="mode == 'register'">Already have an account?
           <Button class="px-0" label="Login" variant="link" @click="mode = 'login'" /></span>
       </form>

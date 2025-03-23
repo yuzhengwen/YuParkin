@@ -16,7 +16,8 @@ export const useUserStore = defineStore('user', {
         this.current = await account.get()
         // initialize teams store if user is logged in
         await useTeamsStore().init()
-      } catch {
+      } catch (e){
+        console.log(e);
         this.current = null
       }
     },
