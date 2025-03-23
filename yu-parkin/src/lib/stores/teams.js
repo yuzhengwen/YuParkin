@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { client, ID, teams } from '../appwrite'
 import { useUserStore } from './user'
 
+const baseUrl = window.location.origin
 export const useTeamsStore = defineStore('teams', {
   state: () => ({
     userTeamsObj: {},
@@ -27,7 +28,7 @@ export const useTeamsStore = defineStore('teams', {
         email,
         undefined,
         undefined,
-        'http://localhost:5173/accept-invite',
+        baseUrl + '/accept-invite',
       )
     },
 
@@ -40,5 +41,7 @@ export const useTeamsStore = defineStore('teams', {
   },
 })
 export const getTeamFromId = (teamId) => {
-  return useTeamsStore().userTeamsObj.teams.find((team) => team.$id === teamId)?.name || 'Team not found'
+  return (
+    useTeamsStore().userTeamsObj.teams.find((team) => team.$id === teamId)?.name || 'Team not found'
+  )
 }
