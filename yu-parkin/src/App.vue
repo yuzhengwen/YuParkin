@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Menubar from 'primevue/menubar';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useUserStore } from './lib/stores/user';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { Toast, Button } from 'primevue';
@@ -17,9 +17,15 @@ const items = computed(() => [
 ]);
 function toggleDarkMode() {
   document.documentElement.classList.toggle('my-app-dark');
+  localStorage.setItem('dark-mode', document.documentElement.classList.contains('my-app-dark'));
 }
 
 console.log(import.meta.env.MODE);
+onMounted(() => {
+  if (localStorage.getItem('dark-mode') === 'true') {
+    document.documentElement.classList.add('my-app-dark');
+  }
+});
 </script>
 
 <template>
