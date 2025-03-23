@@ -55,6 +55,22 @@ onMounted(() => {
   <Toast position="top-center" />
   <ConfirmDialog></ConfirmDialog>
   <div class="mt-8 mx-auto max-w-7xl">
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <transition name="slide" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
+<style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity .15s, scale 0.1s;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  scale: 0.9;
+}
+</style>

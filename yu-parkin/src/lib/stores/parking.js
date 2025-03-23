@@ -19,7 +19,7 @@ export const parking = reactive({
       Query.contains('team-id', teamIds),
       Query.limit(10),
     ])
-    this.current = response.documents
+    this.current = response.documents;
   },
   async add(parking) {
     const response = await databases.createDocument(

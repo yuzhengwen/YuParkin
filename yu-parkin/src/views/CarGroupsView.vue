@@ -9,23 +9,25 @@ import { useTeamsStore } from '@/lib/stores/teams';
 
 </script>
 <template>
-  <div class="flex flex-row gap-4 items-center mb-4">
-    <InviteMember />
-    <CreateTeam />
+  <div>
+    <div class="flex flex-row gap-4 items-center mb-4">
+      <InviteMember />
+      <CreateTeam />
+    </div>
+    <Divider />
+    <h2 class="text-2xl font-bold">Your Car Groups</h2>
+    <DataTable :value="useTeamsStore().userTeamsObj.teams" tableStyle="min-width: 20rem" responsiveLayout="stack"
+      id="dt-responsive-table">
+      <Column field="name" header="Name"></Column>
+      <Column field="total" header="Members"></Column>
+      <Column field="$createdAt" header="Created"></Column>
+      <Column class="w-24 !text-end">
+        <template #body="{ data }">
+          <InviteMember :selectedTeam="data"></InviteMember>
+        </template>
+      </Column>
+    </DataTable>
   </div>
-  <Divider />
-  <h2 class="text-2xl font-bold">Your Car Groups</h2>
-  <DataTable :value="useTeamsStore().userTeamsObj.teams" tableStyle="min-width: 20rem" responsiveLayout="stack"
-    id="dt-responsive-table">
-    <Column field="name" header="Name"></Column>
-    <Column field="total" header="Members"></Column>
-    <Column field="$createdAt" header="Created"></Column>
-    <Column class="w-24 !text-end">
-      <template #body="{ data }">
-        <InviteMember :selectedTeam="data"></InviteMember>
-      </template>
-    </Column>
-  </DataTable>
 </template>
 
 <style>
