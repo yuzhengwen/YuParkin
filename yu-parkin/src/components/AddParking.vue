@@ -3,7 +3,7 @@ import { InputText, useToast } from "primevue";
 import { Button, Select, Divider } from "primevue";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "primevue";
 import Dialog from 'primevue/dialog';
-import { ref, } from "vue";
+import { ref, watch, } from "vue";
 import { parking } from "@/lib/stores/parking";
 import { useUserStore } from "@/lib/stores/user";
 import { useTeamsStore } from "@/lib/stores/teams";
@@ -21,7 +21,16 @@ const teamId = ref('');
 const carparkName = ref('');
 const images = ref([]);
 
+const validateForm = () => {
+  // carpark level and name are already validated by the required attribute
+  if (!teamId.value) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Please choose a team', life: 3000 });
+    return false;
+  }
+  return true;
+}
 const addParkingEntry = async () => {
+  if (!validateForm()) return;
   const files = await uploadImages();
   const fileIds = files.map(file => file.$id);
   await parking.add({
@@ -34,11 +43,7 @@ const addParkingEntry = async () => {
     imageIds: fileIds,
   });
   // clear form so the next entry won't have the same values
-  carparkName.value = "";
-  level.value = "";
-  address.value = "";
-  teamId.value = "";
-  images.value = [];
+  clearForm();
 
   visible.value = false;
   toast.add({ severity: 'success', summary: 'Added', detail: 'Parking entry added!', life: 3000 });
@@ -67,6 +72,18 @@ const onSelectFiles = (files) => {
   images.value = files;
   console.log(images.value);
 }
+const clearForm = () => {
+  carparkName.value = "";
+  level.value = "";
+  address.value = "";
+  teamId.value = "";
+  images.value = [];
+}
+watch(visible, (newVal) => {
+  if (!newVal) {
+    clearForm();
+  }
+});
 </script>
 
 <template>
@@ -84,12 +101,16 @@ const onSelectFiles = (files) => {
         </TabList>
         <TabPanels>
           <TabPanel value="0">
-            <Select v-model="teamId" :options="teamsStore.userTeamsObj.teams" optionValue="$id" optionLabel="name"
-              placeholder="Select a Team" class="w-fit md:w-56" :defaultValue="teamsStore.userTeamsObj.teams[0].name" />
+            <Select :invalid="!teamId" v-model="teamId" :options="teamsStore.userTeamsObj.teams" optionValue="$id"
+              optionLabel="name" placeholder="Select a Team" class="w-fit md:w-56"
+              :defaultValue="teamsStore.userTeamsObj.teams[0].name" /><br>
+            <span class="text-xs text-surface-500 dark:text-surface-400">* Required field</span>
             <Divider />
-            <div class="flex flex-col gap-4">
-              <InputText type="text" placeholder="Carpark Name" v-model="carparkName" />
-              <InputText type="text" placeholder="Level" v-model="level" />
+            <div class="flex flex-col gap-2">
+              <InputText required type="text" placeholder="Carpark Name" v-model="carparkName" />
+              <span class="text-xs text-surface-500 dark:text-surface-400">* Required field</span>
+              <InputText required type="text" placeholder="Level" v-model="level" />
+              <span class="text-xs text-surface-500 dark:text-surface-400 mt-0 p-0">* Required field</span>
             </div>
           </TabPanel>
           <TabPanel value="1">
