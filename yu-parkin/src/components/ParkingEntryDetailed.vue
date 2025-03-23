@@ -21,7 +21,7 @@ watch(parkingEntryRef, async (newEntry) => {
 </script>
 
 <template>
-  <Button class='w-fit' @click="visible = true" label="View Details" icon="pi pi-info-circle" />
+  <Button class='w-fit' @click="visible = true" label="Details" icon="pi pi-info-circle" />
   <Dialog v-model:visible="visible" modal :header="'Carpark: '+ parkingEntry['carpark-name']" class="md:w-96">
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">

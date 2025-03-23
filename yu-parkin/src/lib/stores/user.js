@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
     current: null,
   }),
   actions: {
-    async init() {
+    async updateUser() {
       if (this.current) return
       try {
         this.current = await account.get()
@@ -27,7 +27,7 @@ export const useUserStore = defineStore('user', {
     },
     async login(email, password) {
       await account.createEmailPasswordSession(email, password)
-      await this.init() // Refresh user state
+      await this.updateUser() // Refresh user state
 
       console.log(`Logged in as ${this.current.name}`)
 

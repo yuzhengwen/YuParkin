@@ -37,7 +37,7 @@ router.beforeEach(async (to) => {
 
   // Ensure user data is loaded before checking auth
   if (user.current === null) {
-    await user.init() // try to load user data
+    await user.updateUser() // try to load user data
   }
   console.log(`User is ${user.current ? 'logged in' : 'not logged in'}`)
 
